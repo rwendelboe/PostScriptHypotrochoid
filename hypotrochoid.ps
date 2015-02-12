@@ -1,0 +1,37 @@
+% Don't forget to document your code - brief description, inputs, outputs, and example usage
+% Author: Roman Wendelboe
+% Params
+% r: radius of the inner circle 
+% d: distance of the arm attached to the inner circle
+% b: some integer 
+% a: some integer 
+% Effect: Produces a hypotrochoid
+% Example: a b d r hypotrochoid
+/hypotrochoid
+{
+  8 dict 				%Create local dictionary 
+  begin
+  /r exch def 			%Define top stack value 
+  /d exch def 			%Define next value to d 
+  /b exch def 			%Define next value to b
+  /a exch def 			%Define next value to a
+  /t 0 def    			%Define a variable t 
+  /tMax r 360 mul def	%Define a variable tMax
+  /x a b sub t cos mul a b sub t mul b div cos d mul add def	%x(t) = ((a - b) * cos(t)) + (d * cos( ((a-b) * t)/b ))
+  /y a b sub t sin mul a b sub t mul b div sin d mul sub def	%y(t) = ((a - b) * sin(t)) - (d * sin( ((a-b) * t)/b ))
+  
+  x y moveto													%Move coordinate frame to current location
+  {
+	x y lineto  												%Continue line
+	/t t 1 add def 												%Increment the value of t and re-define it
+	t tMax gt													%Check if max angle has been reached  
+		{ exit }
+	if 
+	
+	/x a b sub t cos mul a b sub t mul b div cos d mul add def	%x(t) = ((a - b) * cos(t)) + (d * cos( ((a-b) * t)/b ))
+	/y a b sub t sin mul a b sub t mul b div sin d mul sub def	%y(t) = ((a - b) * sin(t)) - (d * sin( ((a-b) * t)/b ))
+  }
+  loop 
+  end
+  
+} def
